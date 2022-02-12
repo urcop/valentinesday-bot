@@ -12,10 +12,6 @@ from states.admin_states import ChangeName
 
 @dp.message_handler(Command(['users']))
 async def all_users(message: types.Message):
-    # text = ''
-    # users = await db.select_all_users()
-    # for user in users:
-    #     text += f"{user['fullname']} - {user['tg_id']} \n \n"
     await message.answer(text="все пользователи", reply_markup=await create_keyboard_users())
 
 
