@@ -63,6 +63,7 @@ async def get_user(call: CallbackQuery, state: FSMContext):
         await db.delete_user(int(data['id']))
         await bot.delete_message(call.from_user.id, call.message.message_id)
         await call.message.answer('успешно удален!')
+        await state.finish()
 
 
 @dp.message_handler(Command(['admin_help']))
