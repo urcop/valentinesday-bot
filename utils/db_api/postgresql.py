@@ -78,6 +78,10 @@ class Database:
         sql = "UPDATE users SET fullname=$1 WHERE tg_id=$2"
         return await self.execute(sql, fullname, tg_id, execute=True)
 
+    async def delete_user(self, tg_id):
+        sql = "DELETE FROM users WHERE tg_id=$1"
+        return await self.execute(sql, tg_id, execute=True)
+
 
 if __name__ == '__main__':
     pass

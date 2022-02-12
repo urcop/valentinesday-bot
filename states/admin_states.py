@@ -5,3 +5,6 @@ class ChangeName(StatesGroup):
     id = State()
     new_name = State()
 
+
+class DeleteUser(StatesGroup):
+    id = State()

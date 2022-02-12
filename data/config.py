@@ -11,4 +11,3 @@ DB_PASS = env.str('DB_PASSWORD')
 DB_USER = env.str('DB_USER')
 PORT = env.str('PORT')
 db = env.str('DATABASE')
-

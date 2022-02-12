@@ -20,6 +20,7 @@ async def choice_person(call: CallbackQuery, state: FSMContext):
         user = call.data
         pined_user = await db.select_user(tg_id=int(user.split(":")[2]))
         data['forward_to'] = user.split(":")[2]
+        await bot.delete_message(call.from_user.id, call.message.message_id)
         await call.message.answer(f'Вы выбрали - {pined_user["fullname"]}')
         await call.message.answer('Напишите сообщение этому человеку или отправьте картинку')
         await Valentine.next()
