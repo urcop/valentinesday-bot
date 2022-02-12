@@ -1,1 +1,0 @@
-from .horoscope import horoscope
