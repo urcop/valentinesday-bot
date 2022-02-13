@@ -8,3 +8,7 @@ class ChangeName(StatesGroup):
 
 class DeleteUser(StatesGroup):
     id = State()
+
+
+class SendMsg(StatesGroup):
+    message = State()

@@ -4,11 +4,12 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
 from aiogram.types import CallbackQuery
+from aiogram.utils.exceptions import BotBlocked
 
 from data.config import ADMINS
 from keyboards.inline.users_keyboard import create_keyboard_users, users_callback
 from loader import dp, db, bot
-from states.admin_states import ChangeName, DeleteUser
+from states.admin_states import ChangeName, DeleteUser, SendMsg
 
 
 @dp.message_handler(Command(['users']))
@@ -72,3 +73,23 @@ async def admin_help(message: types.Message):
                          '/delete_user - удаление пользователя из бд\n'
                          '/users - показывает всех пользователей\n'
                          '/change_name - меняет имя пользователю')
+
+
+@dp.message_handler(text='отправить всем')
+async def mailing(message: types.Message):
+    if str(message.from_user.id) in ADMINS:
+        await message.answer('какое сообщение отправить всем?')
+        await SendMsg.message.set()
+
+
+@dp.message_handler(state=SendMsg.message)
+async def get_msg(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['message'] = message.text
+        users = await db.select_all_users()
+        for user in users:
+            try:
+                await bot.send_message(chat_id=user['tg_id'], text=data['message'])
+            except BotBlocked:
+                logging.info(f'чел - {user["tg_id"]} блокнул бота')
+        await state.finish()

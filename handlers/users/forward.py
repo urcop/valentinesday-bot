@@ -46,3 +46,13 @@ async def write_message(message: types.Message, state: FSMContext):
         await bot.send_photo(data['forward_to'], data['message'])
         await message.answer('Отправлено!')
         await state.finish()
+
+
+@dp.message_handler(state=Valentine.message, content_types=['sticker'])
+async def write_sticker(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['message'] = message.sticker.file_id
+        await bot.send_message(data['forward_to'], text='[ Вам анонимное сообщение ]')
+        await bot.send_sticker(data['forward_to'], data['message'])
+        await message.answer('Отправлено!')
+        await state.finish()
