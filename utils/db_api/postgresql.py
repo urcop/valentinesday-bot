@@ -1,6 +1,4 @@
 import asyncpg
-import self as self
-import telegram as telegram
 from asyncpg import Connection
 from asyncpg.pool import Pool
 
